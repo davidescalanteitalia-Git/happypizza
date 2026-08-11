@@ -1,0 +1,760 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Happy Pizza — Pizzeria d'asporto e domicilio, Via Alciato 35, Cantù</title>
+<meta name="description" content="Happy Pizza Cantù — oltre 60 pizze, kebab e bibite. Consegna a domicilio a solo 1€ (minimo 2 pizze). Aperti tutti i giorni dalle 18 alle 24. Tel 031 4144833.">
+<meta name="theme-color" content="#E2001A">
+<link rel="canonical" href="https://happypizza.d4digitalstudio.it/">
+<meta property="og:url" content="https://happypizza.d4digitalstudio.it/">
+<meta property="og:type" content="website">
+<meta property="og:locale" content="it_IT">
+<meta property="og:title" content="Happy Pizza — Cantù">
+<meta property="og:description" content="Oltre 60 pizze, kebab e bibite. Consegna a domicilio a 1€. Aperti tutti i giorni 18:00–24:00.">
+<meta property="og:image" content="https://happypizza.d4digitalstudio.it/icon-512.png">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="favicon-64.png" sizes="64x64">
+<link rel="icon" href="favicon-32.png" sizes="32x32">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Happy Pizza">
+
+<!--
+  ══════════════════════════════════════════════════════════════
+  NOTE PER DAVID / HAPPY PIZZA
+
+  TUTTO IL MENÙ vive in un unico posto: cerca "INIZIO MENU" più giù
+  in questo file. È un elenco leggibile, una pizza per riga: nome,
+  ingredienti, prezzo normale, prezzo famiglia. Per cambiare un
+  prezzo o aggiungere una pizza nuova basta modificare quella riga,
+  non serve toccare il resto della pagina.
+
+  DATI DA CONFERMARE CON IL LOCALE (presi dalla foto del menù cartaceo):
+  - "Acqua 5 cl" sul cartaceo — probabilmente è un refuso e intende
+    50 cl (a 1€ ha più senso). Verificare.
+  - "Rustica" (pomodoro, mozzarella, salsiccia, cipolle, zola): il
+    prezzo non si leggeva nella foto (era tagliato). Messo come
+    "chiedere al banco" finché non si conferma.
+  - Indirizzo: Via Alciato, 35 – 22063 Cantù (CO). Tel 031-4144833 /
+    328-7519605 (usato anche come WhatsApp per il pulsante "Ordina
+    su WhatsApp" — confermare che il numero abbia davvero WhatsApp
+    attivo prima di pubblicare).
+  - Consegna a domicilio: 1€, minimo 2 pizze (dato dal volantino).
+  - Orari: tutti i giorni dalle 18:00 alle 24:00.
+  - Si accettano ticket restaurant e buoni pasto, bancomat e carte
+    anche a domicilio (comunicarlo all'ordine).
+  - Il mercoledì: 3x2 (prendi 3, paghi 2) su tutte le pizze.
+  - Tutte le pizze si possono fare con farina integrale o Kamut.
+    Ogni ingrediente extra +1€.
+  - Logo vettoriale "HAPPY PIZZA" creato in sessione precedente,
+    riprodotto qui in CSS/SVG per restare fedele all'originale
+    cartaceo (bianco puro + rosso intenso + contorno nero).
+  ══════════════════════════════════════════════════════════════
+-->
+
+<style>
+:root{
+  --paper:#FFFFFF;
+  --paper-2:#FAF6F1;
+  --ink:#161311;
+  --ink-soft:#5b544c;
+  --line:#E8E1D8;
+  --red:#E2001A;
+  --red-deep:#B40014;
+  --on-red:#FFFFFF;
+  --radius:14px;
+  --tap:46px;
+  --measure:62ch;
+  --ease:cubic-bezier(.22,1,.36,1);
+}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important;animation:none!important}}
+body{
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+  background:var(--paper);color:var(--ink);line-height:1.6;font-size:17px;
+  -webkit-font-smoothing:antialiased;
+  padding-bottom:calc(84px + env(safe-area-inset-bottom));
+}
+a{color:inherit}
+img{max-width:100%;display:block}
+:focus-visible{outline:3px solid var(--red);outline-offset:3px;border-radius:4px}
+.skip{position:absolute;left:-9999px}
+.skip:focus{left:12px;top:12px;z-index:99;background:var(--ink);color:#fff;padding:12px 16px;border-radius:8px}
+.wrap{width:100%;max-width:1060px;margin:0 auto;padding:0 20px}
+
+/* header */
+.top{position:sticky;top:0;z-index:40;background:var(--paper);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:12px;min-height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;margin-right:auto;min-height:var(--tap)}
+.brand img{width:38px;height:38px;border-radius:10px;flex:none}
+.brand b{display:block;font-size:17px;letter-spacing:-.02em;line-height:1.1}
+.brand b em{font-style:normal;color:var(--red)}
+.brand span{display:block;font-size:10px;letter-spacing:.13em;text-transform:uppercase;color:var(--ink-soft)}
+.links{display:none;gap:6px}
+.links a{display:flex;align-items:center;min-height:var(--tap);padding:0 14px;text-decoration:none;font-size:15px;color:var(--ink-soft);border-radius:10px;font-weight:600}
+.links a:hover{color:var(--ink);background:var(--paper-2)}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  min-height:var(--tap);padding:0 20px;border-radius:999px;
+  background:var(--red);color:var(--on-red);
+  text-decoration:none;font-size:15px;font-weight:700;border:0;cursor:pointer;
+  font-family:inherit;white-space:nowrap;
+  transition:background .25s var(--ease),transform .15s var(--ease),box-shadow .15s var(--ease);
+}
+.btn:hover{background:var(--red-deep)}
+.btn:active{transform:scale(.97)}
+.btn.dark{background:var(--ink);color:#fff}
+.btn.dark:hover{background:#000}
+.btn.line{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
+.btn.line:hover{background:var(--paper-2)}
+.btn.white{background:#fff;color:var(--red)}
+.btn.white:hover{background:#f2e9e9}
+.btn.small{min-height:44px;font-size:14px;padding:0 16px}
+@media (hover:hover) and (pointer:fine){
+  .btn:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(0,0,0,.16)}
+}
+@media (max-width:420px){
+  .top .wrap{padding:0 14px;gap:8px}
+  .brand span{display:none}
+  .btn.small{padding:0 12px;font-size:13px}
+}
+
+/* hero */
+.hero{position:relative;overflow:hidden;background-color:var(--ink);color:#fff;padding:52px 0 60px;
+  background-image:
+    linear-gradient(100deg, rgba(10,8,7,.88) 0%, rgba(10,8,7,.74) 44%, rgba(20,4,6,.42) 100%),
+    radial-gradient(1100px circle at 85% -10%, rgba(226,0,26,.30), transparent 60%),
+    url('hero-forno-800.jpg');
+  background-size:cover;background-position:60% center;background-repeat:no-repeat;
+}
+@media (min-width:800px){
+  .hero{background-image:
+    linear-gradient(100deg, rgba(10,8,7,.86) 0%, rgba(10,8,7,.70) 44%, rgba(20,4,6,.38) 100%),
+    radial-gradient(1100px circle at 85% -10%, rgba(226,0,26,.30), transparent 60%),
+    url('hero-forno.jpg');
+  }
+}
+.hero .wrap{max-width:780px;position:relative;z-index:2}
+.place{display:inline-block;font-size:11px;letter-spacing:.15em;text-transform:uppercase;
+  padding:7px 14px;border:1px solid rgba(255,255,255,.4);border-radius:999px;margin-bottom:20px}
+.logo-word{font-weight:800;letter-spacing:-.03em;line-height:.96}
+.logo-word .l1{display:block;font-size:clamp(2rem,9vw,3.6rem);color:#fff;
+  -webkit-text-stroke:2px #000;text-shadow:2px 2px 0 #000}
+.logo-word .l2{display:block;font-size:clamp(2.4rem,10.5vw,4.3rem);color:var(--red);
+  -webkit-text-stroke:2px #000;text-shadow:2px 2px 0 #000;margin-top:2px}
+.lede{margin-top:18px;font-size:clamp(1rem,4vw,1.18rem);max-width:46ch;color:rgba(255,255,255,.92)}
+.terms{margin-top:14px;font-size:13.5px;max-width:48ch;line-height:1.55;color:rgba(255,255,255,.72)}
+.hero-cta{display:flex;flex-wrap:wrap;gap:10px;margin-top:26px}
+.open{display:flex;align-items:center;gap:8px;margin-top:24px;font-size:14px;color:rgba(255,255,255,.85)}
+.led{width:8px;height:8px;border-radius:50%;background:#38c96a;flex:none;box-shadow:0 0 0 4px rgba(56,201,106,.25)}
+
+/* strip informazioni rapide */
+.infobar{background:var(--paper-2);border-bottom:1px solid var(--line)}
+.infobar .wrap{display:grid;gap:16px;grid-template-columns:1fr;padding:22px 20px}
+@media (min-width:720px){.infobar .wrap{grid-template-columns:repeat(4,1fr)}}
+.infoitem{display:flex;gap:10px;align-items:flex-start;font-size:13.5px}
+.infoitem b{display:block;font-size:14px}
+.infoitem span{color:var(--ink-soft)}
+.infoitem .ic{flex:none;width:20px;text-align:center;color:var(--red);font-size:16px}
+
+/* le più richieste */
+.feat-grid{display:grid;gap:14px;grid-template-columns:repeat(2,1fr);margin-top:26px}
+@media (min-width:640px){.feat-grid{grid-template-columns:repeat(3,1fr)}}
+@media (min-width:900px){.feat-grid{grid-template-columns:repeat(5,1fr)}}
+.feat-card{display:block;text-align:left;background:var(--paper-2);
+  border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;padding:16px 16px 18px;
+  transition:border-color .2s var(--ease),transform .18s var(--ease),box-shadow .18s var(--ease);
+  appearance:none;font:inherit;color:inherit;cursor:pointer;width:100%}
+.feat-card:active{transform:scale(.97)}
+@media (hover:hover) and (pointer:fine){
+  .feat-card:hover{border-color:var(--red);transform:translateY(-3px);box-shadow:0 10px 24px rgba(0,0,0,.1)}
+}
+.feat-img{display:block;width:calc(100% + 32px);height:130px;object-fit:cover;
+  margin:-16px -16px 12px -16px;background:var(--paper-2)}
+.feat-tag{display:block;font-size:10.5px;letter-spacing:.1em;text-transform:uppercase;
+  color:var(--red);font-weight:700;margin-bottom:8px}
+.feat-card b{display:block;font-size:15.5px;letter-spacing:-.01em;font-weight:700}
+.feat-card em{display:block;font-style:normal;font-size:13px;color:var(--ink-soft);margin-top:4px}
+.feat-card .pr{display:block;margin-top:10px;font-weight:800;color:var(--red)}
+
+/* sections */
+section{padding:52px 0}
+section + section{border-top:1px solid var(--line)}
+.eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--red);font-weight:700;margin-bottom:12px}
+h2{font-size:clamp(1.6rem,6vw,2.4rem);line-height:1.12;letter-spacing:-.03em;font-weight:800}
+h3{font-size:1.05rem;letter-spacing:-.01em}
+.sub{color:var(--ink-soft);margin-top:14px;max-width:var(--measure)}
+
+/* menu */
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:28px 0 6px;position:sticky;top:64px;background:var(--paper);z-index:20;padding:8px 0}
+.tab{
+  min-height:var(--tap);padding:0 18px;border-radius:999px;cursor:pointer;
+  border:1.5px solid var(--line);background:transparent;color:var(--ink-soft);
+  font:inherit;font-size:14.5px;font-weight:600;transition:background .2s var(--ease),color .2s var(--ease);
+}
+.tab[aria-selected="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
+.list{display:none;margin-top:10px}
+.list.on{display:grid;gap:0 44px}
+@media (min-width:720px){.list.on{grid-template-columns:1fr 1fr}}
+.row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row-img{flex:none;width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--paper-2);margin-top:1px}
+.row .n{flex:1;min-width:0;font-weight:700;font-size:15.5px}
+.row .n .d{display:block;font-weight:400;font-size:13.5px;color:var(--ink-soft);margin-top:3px}
+.row .pr{flex:none;text-align:right;font-weight:800;color:var(--red);font-size:14.5px;white-space:nowrap;padding-top:1px}
+.row .pr small{display:block;font-weight:500;color:var(--ink-soft);font-size:11px}
+.row .add{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-2);
+  color:var(--ink);font-size:19px;line-height:1;cursor:pointer;appearance:none;margin-top:1px}
+.row .add:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.legend{margin-top:22px;font-size:13px;color:var(--ink-soft);max-width:var(--measure)}
+.legend b{color:var(--ink)}
+.promo-box{margin-top:26px;border:1.5px dashed var(--red);border-radius:var(--radius);background:#fff3f2;padding:16px 20px;max-width:var(--measure)}
+.promo-box b{color:var(--red)}
+
+/* come ordinare */
+.steps{margin-top:26px}
+.step{display:flex;gap:18px;padding:22px 0;border-top:1px solid var(--line)}
+.step:last-child{border-bottom:1px solid var(--line)}
+.step .k{font-size:13px;font-weight:800;color:var(--red);width:26px;flex:none;padding-top:3px}
+.step p{color:var(--ink-soft);margin-top:5px;max-width:52ch;font-size:15.5px}
+.step .btn{margin-top:14px}
+.step .btn + .btn{margin-left:8px}
+
+/* chi siamo / dove */
+.facts{list-style:none;margin-top:26px;max-width:var(--measure)}
+.facts li{display:flex;justify-content:space-between;gap:20px;padding:13px 0;border-top:1px solid var(--line);font-size:15.5px}
+.facts li:last-child{border-bottom:1px solid var(--line)}
+.facts b{font-weight:700;text-align:right}
+.facts span{color:var(--ink-soft)}
+.mapwrap{display:block;position:relative;margin-top:26px;text-decoration:none;border-radius:var(--radius);overflow:hidden;border:1px solid var(--line)}
+.map iframe{width:100%;height:320px;border:0;display:block}
+.maplabel{position:absolute;left:12px;bottom:12px;background:var(--ink);color:#fff;padding:11px 18px;border-radius:999px;font-size:14px;font-weight:600;text-decoration:none}
+
+/* footer */
+footer{background:var(--ink);color:#eee;padding:44px 0 30px}
+.fgrid{display:grid;gap:30px 36px;grid-template-columns:1fr}
+@media(min-width:560px){.fgrid{grid-template-columns:1fr 1fr}}
+@media(min-width:960px){.fgrid{grid-template-columns:1.3fr 1fr 1fr 1fr}}
+footer h2{font-size:13px;letter-spacing:.12em;text-transform:uppercase;color:var(--red);
+  font-weight:800;margin-bottom:10px}
+footer p, footer li{font-size:14.5px;color:rgba(255,255,255,.7);line-height:1.65}
+footer b{color:#fff;font-weight:600}
+footer a{color:#fff;text-decoration:underline;text-underline-offset:3px}
+footer a:hover{color:var(--red)}
+footer ul{list-style:none}
+footer li{margin-bottom:6px}
+.fbrand .fname{font-size:18px;font-weight:800;letter-spacing:-.01em;color:#fff}
+.fbrand .fsub{margin-top:4px}
+.fbrand .fcredit{margin-top:16px;font-size:13px}
+.fbottom{margin-top:34px;padding-top:16px;border-top:1px solid rgba(255,255,255,.15);
+  display:flex;flex-wrap:wrap;gap:8px 24px;font-size:13px;color:rgba(255,255,255,.55)}
+
+/* barra fissa mobile */
+.callbar{position:fixed;left:14px;right:14px;bottom:calc(14px + env(safe-area-inset-bottom));z-index:60;display:flex;gap:10px}
+.call{
+  flex:1;display:flex;align-items:center;justify-content:center;min-height:54px;
+  border-radius:999px;text-decoration:none;font-weight:700;font-size:15px;
+  box-shadow:0 8px 26px rgba(0,0,0,.28);
+  transition:transform .15s var(--ease),box-shadow .15s var(--ease);
+}
+.call.phone{background:var(--ink);color:#fff}
+.call.wa{background:#25D366;color:#fff}
+.call:active{transform:scale(.96)}
+
+@media (min-width:900px){
+  body{padding-bottom:0}
+  .links{display:flex}
+  .callbar{display:none}
+  section{padding:76px 0}
+  .hero{padding:76px 0 84px}
+  .tabs{top:0}
+}
+
+/* carrello whatsapp */
+dialog{border:0;border-radius:var(--radius) var(--radius) 0 0;padding:0;
+  background:var(--paper);color:var(--ink);width:100%;max-width:520px;
+  margin:auto auto 0;max-height:90dvh}
+@media (min-width:640px){dialog{border-radius:var(--radius);margin:auto}}
+dialog::backdrop{background:rgba(10,8,7,.55)}
+dialog[open]{animation:sheet-in .22s var(--ease)}
+@keyframes sheet-in{from{transform:translateY(14px);opacity:0}to{transform:translateY(0);opacity:1}}
+.sheet{padding:20px}
+.sheet-top{display:flex;align-items:center;gap:10px}
+.sheet-top h3{flex:1}
+.sheet-x{width:36px;height:36px;border-radius:50%;border:0;background:var(--paper-2);font-size:18px;cursor:pointer}
+.olist{margin:16px 0;max-height:40vh;overflow:auto}
+.oi{display:flex;gap:10px;padding:10px 0;border-bottom:1px solid var(--line);align-items:baseline}
+.oi b{font-size:14.5px}
+.oi .rm{margin-left:auto;flex:none;border:0;background:none;color:var(--red);font:inherit;font-size:13px;font-weight:700;cursor:pointer}
+.co-tot{display:flex;justify-content:space-between;font-size:16px;font-weight:800;border-top:2px solid var(--ink);padding-top:12px;margin-top:8px}
+.field{margin-top:14px}
+.field label{display:block;font-size:13.5px;font-weight:700;margin-bottom:5px}
+.field input,.field select{width:100%;min-height:46px;border:1.5px solid var(--line);border-radius:10px;
+  background:var(--paper-2);color:inherit;padding:0 14px;font-size:16px;font-family:inherit}
+.co-send{margin-top:18px;width:100%;min-height:52px;border:0;border-radius:999px;
+  background:#25D366;color:#fff;font-size:16px;font-weight:700;cursor:pointer}
+.co-legal{font-size:12px;color:var(--ink-soft);margin-top:12px;line-height:1.5}
+.cartbar{position:fixed;left:14px;right:14px;bottom:calc(78px + env(safe-area-inset-bottom));z-index:59}
+.cartbar .inner{display:flex;align-items:center;gap:14px;min-height:52px;
+  background:var(--red);color:#fff;border-radius:999px;padding:0 8px 0 18px;box-shadow:0 8px 26px rgba(0,0,0,.28)}
+.cartbar b{font-size:14.5px}
+.cartbar button{margin-left:auto;min-height:40px;padding:0 18px;border:0;border-radius:999px;
+  background:#fff;color:var(--red);font-size:14px;font-weight:800;cursor:pointer}
+@media (min-width:900px){.cartbar{left:auto;right:24px;bottom:24px;max-width:340px}}
+.empty{display:none}
+.cartbar[hidden]{display:none}
+</style>
+</head>
+<body>
+
+<a class="skip" href="#contenuto">Vai al contenuto</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="#top">
+      <img src="icon-192.png" alt="">
+      <span><b>Happy <em>Pizza</em></b><span>Pizzeria &amp; Kebab · Cantù</span></span>
+    </a>
+    <nav class="links" aria-label="Sezioni">
+      <a href="#menu">Il menù</a>
+      <a href="#ordinare">Come ordinare</a>
+      <a href="#dove">Dove siamo</a>
+    </nav>
+    <a class="btn small dark" href="tel:+390314144833">Chiama</a>
+  </div>
+</header>
+
+<main id="contenuto">
+
+<div class="hero" id="top">
+  <div class="wrap">
+    <span class="place">Via Alciato 35 · Cantù (CO)</span>
+    <p class="logo-word"><span class="l1">HAPPY</span><span class="l2">PIZZA</span></p>
+    <p class="lede">Oltre 60 pizze, kebab e piadine, tutte cotte con cura. Ordina online in un attimo, ti chiamiamo noi se manca qualcosa.</p>
+    <p class="terms">Consegna a domicilio a solo 1€ (minimo 2 pizze). Pagamento anche con bancomat, carta e ticket restaurant — anche a domicilio, basta dirlo all'ordine.</p>
+    <div class="hero-cta">
+      <a class="btn white" href="tel:+390314144833">📞 Chiama · 031 4144833</a>
+      <a class="btn dark" href="https://wa.me/393287519605" target="_blank" rel="noopener">💬 WhatsApp</a>
+      <a class="btn line" style="color:#fff;border-color:rgba(255,255,255,.4)" href="#menu">Vedi il menù</a>
+    </div>
+    <p class="open"><span class="led"></span>Aperti tutti i giorni, dalle 18:00 alle 24:00</p>
+  </div>
+</div>
+
+<div class="infobar">
+  <div class="wrap">
+    <div class="infoitem"><span class="ic">🚚</span><span><b>Consegna 1€</b><span>Minimo 2 pizze a domicilio</span></span></div>
+    <div class="infoitem"><span class="ic">🕗</span><span><b>18:00 – 24:00</b><span>Tutti i giorni, nessuna chiusura</span></span></div>
+    <div class="infoitem"><span class="ic">💳</span><span><b>Bancomat e carte</b><span>Anche a domicilio, ticket restaurant OK</span></span></div>
+    <div class="infoitem"><span class="ic">🍕</span><span><b>Mercoledì 3x2</b><span>Prendi 3 pizze, paghi 2</span></span></div>
+  </div>
+</div>
+
+<section id="richieste">
+  <div class="wrap">
+    <p class="eyebrow">Le più richieste</p>
+    <h2>I grandi classici di Happy Pizza.</h2>
+    <p class="sub">Le pizze che vanno per la maggiore. Tutta la carta completa (oltre 60 pizze, kebab e bibite) è qui sotto.</p>
+    <div class="feat-grid" id="feat-grid"></div>
+  </div>
+</section>
+
+<section id="menu">
+  <div class="wrap">
+    <p class="eyebrow">Il menù</p>
+    <h2>Tutta la carta, in un unico posto.</h2>
+    <p class="sub">Prezzo a sinistra formato normale, a destra formato famiglia. Ogni ingrediente in più +1€. Disponibile anche con farina integrale o Kamut.</p>
+
+    <div class="tabs" role="tablist" aria-label="Categorie del menù">
+      <button type="button" class="tab" role="tab" id="t-classiche" aria-controls="p-classiche" aria-selected="true" data-cat="classiche">Pizze classiche</button>
+      <button type="button" class="tab" role="tab" id="t-speciali" aria-controls="p-speciali" aria-selected="false" data-cat="speciali">Pizze speciali</button>
+      <button type="button" class="tab" role="tab" id="t-kebab" aria-controls="p-kebab" aria-selected="false" data-cat="kebab">Kebab</button>
+      <button type="button" class="tab" role="tab" id="t-bibite" aria-controls="p-bibite" aria-selected="false" data-cat="bibite">Bibite</button>
+    </div>
+
+    <div class="list" id="p-classiche" data-panel="classiche"></div>
+    <div class="list" id="p-speciali" data-panel="speciali"></div>
+    <div class="list" id="p-kebab" data-panel="kebab"></div>
+    <div class="list" id="p-bibite" data-panel="bibite"></div>
+
+    <p class="legend"><b>Nota:</b> i prezzi con due valori sono <b>formato normale / formato famiglia</b>. La Focaccia è disponibile solo in formato normale. Il prezzo della Rustica va confermato al banco.</p>
+    <div class="promo-box"><b>Ogni mercoledì:</b> prendi 3 pizze e paghi 2, su tutta la carta.</div>
+  </div>
+</section>
+
+<section id="ordinare">
+  <div class="wrap">
+    <p class="eyebrow">Come ordinare</p>
+    <h2>Tre modi semplici per ordinare.</h2>
+    <div class="steps">
+      <div class="step">
+        <span class="k">01</span>
+        <div>
+          <h3>Aggiungi le pizze al carrello qui sopra</h3>
+          <p>Tocca il tondino "+" accanto a ogni pizza. In basso apparirà il riepilogo dell'ordine.</p>
+        </div>
+      </div>
+      <div class="step">
+        <span class="k">02</span>
+        <div>
+          <h3>Invia l'ordine su WhatsApp</h3>
+          <p>Il messaggio arriva già scritto, con tutte le pizze e il totale: basta confermare l'invio.</p>
+          <a class="btn small dark" href="https://wa.me/393287519605" target="_blank" rel="noopener">Scrivi su WhatsApp</a>
+        </div>
+      </div>
+      <div class="step">
+        <span class="k">03</span>
+        <div>
+          <h3>Preferisci il telefono o Just Eat?</h3>
+          <p>Puoi sempre chiamare direttamente o ordinare dall'app Just Eat.</p>
+          <a class="btn small dark" href="tel:+390314144833">Chiama 031 4144833</a>
+          <a class="btn small line" href="https://www.just-eat.it/" target="_blank" rel="noopener">Just Eat</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="dove">
+  <div class="wrap">
+    <p class="eyebrow">Dove siamo</p>
+    <h2>Via Alciato 35, Cantù (CO).</h2>
+    <ul class="facts">
+      <li><span>Indirizzo</span><b>Via Alciato, 35 – 22063 Cantù (CO)</b></li>
+      <li><span>Telefono</span><b>031 4144833 · 328 7519605</b></li>
+      <li><span>Orari</span><b>Tutti i giorni, 18:00 – 24:00</b></li>
+      <li><span>Facebook</span><b><a href="https://www.facebook.com/" target="_blank" rel="noopener">Happy Pizza Cantù</a></b></li>
+    </ul>
+    <div class="mapwrap">
+      <div class="map">
+        <iframe loading="lazy" referrerpolicy="no-referrer-when-downgrade"
+          src="https://www.google.com/maps?q=Via+Alciato+35+22063+Cantù+CO&output=embed"></iframe>
+      </div>
+      <a class="maplabel" href="https://www.google.com/maps/search/?api=1&query=Via+Alciato+35+22063+Cantù+CO" target="_blank" rel="noopener">Apri in Google Maps</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap fgrid">
+    <div class="fbrand">
+      <div class="fname">Happy <span style="color:var(--red)">Pizza</span></div>
+      <p class="fsub">Pizzeria d'asporto, domicilio e kebab a Cantù (CO).</p>
+      <p class="fcredit">Sito realizzato da <a href="https://d4digitalstudio.it" target="_blank" rel="noopener"><b>D4 Digital Studio</b></a></p>
+    </div>
+    <div>
+      <h2>Contatti</h2>
+      <ul>
+        <li><a href="tel:+390314144833">031 4144833</a></li>
+        <li><a href="tel:+393287519605">328 7519605</a></li>
+        <li><a href="https://wa.me/393287519605" target="_blank" rel="noopener">WhatsApp</a></li>
+        <li><a href="https://www.facebook.com/" target="_blank" rel="noopener">Facebook</a></li>
+      </ul>
+    </div>
+    <div>
+      <h2>Orari</h2>
+      <ul>
+        <li>Tutti i giorni</li>
+        <li>18:00 – 24:00</li>
+        <li>Consegna 1€ (min. 2 pizze)</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Indirizzo</h2>
+      <ul>
+        <li>Via Alciato, 35</li>
+        <li>22063 Cantù (CO)</li>
+        <li><a href="https://www.google.com/maps/search/?api=1&query=Via+Alciato+35+22063+Cantù+CO" target="_blank" rel="noopener">Vedi mappa</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="wrap fbottom">
+    <span>© <span id="year"></span> Happy Pizza Cantù</span>
+    <span>P.IVA da confermare</span>
+  </div>
+</footer>
+
+<div class="callbar">
+  <a class="call phone" href="tel:+390314144833">📞 Chiama</a>
+  <a class="call wa" href="https://wa.me/393287519605" target="_blank" rel="noopener">💬 WhatsApp</a>
+</div>
+
+<div class="cartbar" id="cartbar" hidden>
+  <div class="inner">
+    <b id="cart-count">0 pizze</b>
+    <button type="button" id="cart-open">Vedi ordine</button>
+  </div>
+</div>
+
+<dialog id="cart-dialog">
+  <div class="sheet">
+    <div class="sheet-top">
+      <h3>Il tuo ordine</h3>
+      <button type="button" class="sheet-x" id="cart-close">✕</button>
+    </div>
+    <div class="olist" id="olist"></div>
+    <div class="co-tot"><span>Totale (formato normale)</span><span id="cart-total">0 €</span></div>
+    <div class="field">
+      <label for="cust-name">Il tuo nome</label>
+      <input id="cust-name" type="text" placeholder="Nome e cognome">
+    </div>
+    <div class="field">
+      <label for="cust-mode">Ritiro o domicilio?</label>
+      <select id="cust-mode">
+        <option value="Ritiro in negozio">Ritiro in negozio</option>
+        <option value="Domicilio (+1€, minimo 2 pizze)">Domicilio (+1€, minimo 2 pizze)</option>
+      </select>
+    </div>
+    <div class="field" id="addr-field" style="display:none">
+      <label for="cust-addr">Indirizzo di consegna</label>
+      <input id="cust-addr" type="text" placeholder="Via, numero civico">
+    </div>
+    <button type="button" class="co-send" id="cart-send">Invia l'ordine su WhatsApp</button>
+    <p class="co-legal">L'ordine si invia come messaggio WhatsApp al numero della pizzeria: nessun pagamento online, si conferma tutto in chat.</p>
+  </div>
+</dialog>
+
+<script>
+document.getElementById('year').textContent = new Date().getFullYear();
+
+/* ══ INIZIO MENU ══
+   Una pizza per riga: id, nome, ingredienti, prezzo normale, prezzo famiglia (null se non c'è).
+   Per modificare un prezzo basta cambiare il numero qui. */
+const MENU = {
+  classiche: [
+    ["Marinara","Pomodoro, aglio, origano",4.5,15],
+    ["Margherita","Pomodoro, mozzarella",5,18],
+    ["Gorgonzola","Pomodoro, mozzarella, gorgonzola",6,20],
+    ["Campagnola","Pomodoro, mozzarella, taleggio, pere",7,22],
+    ["Biancaneve","Mozzarella, taleggio, grana",6,20],
+    ["Capricciosa","Pomodoro, mozzarella, capriccio",7,22],
+    ["Napoli","Pomodoro, mozzarella, acciughe, origano",6,20],
+    ["Pugliese","Pomodoro, mozzarella, cipolle, origano",6,20],
+    ["Prosciutto cotto","Pomodoro, mozzarella, cotto",6,20],
+    ["Prosciutto e funghi","Pomodoro, mozzarella, crudo/cotto, funghi",7,22],
+    ["Primavera","Pomodoro, mozzarella, gamberetti, lattuga",7,22],
+    ["4 Stagioni","Pomodoro, mozzarella, prosciutto, carciofi, funghi",7,22],
+    ["Calabrese","Pomodoro, mozzarella, salame piccante",6,20],
+    ["Salame dolce","Pomodoro, mozzarella, salame dolce",6,20],
+    ["Braccio di ferro","Pomodoro, mozzarella, ricotta, spinaci",7,22],
+    ["4 Formaggi","Pomodoro, mozzarella, zola, taleggio, scamorza",7,22],
+    ["Tonno","Pomodoro, mozzarella, tonno",6,20],
+    ["Tirolese","Pomodoro, mozzarella, speck",7,22],
+    ["Trevisana","Pomodoro, mozzarella, radicchio, zola, grana",7,22],
+    ["Würstel","Pomodoro, mozzarella, würstel",6,20],
+    ["Vegetariana","Pomodoro, mozzarella, verdure grigliate",7,22],
+    ["Crudo","Pomodoro, mozzarella, crudo di Parma",7,22],
+    ["Agrodolce","Pomodoro, mozzarella, zola, mele",7,22],
+  ],
+  speciali: [
+    ["Romana","Pomodoro, mozzarella, capperi, acciughe, olive, origano",7,22],
+    ["Tonno e cipolle","Pomodoro, mozzarella, tonno, cipolle",7,22],
+    ["Mediterranea","Pomodoro, mozzarella, pomodorini, basilico",7,22],
+    ["Saporita","Pomodoro, mozzarella, olive, scamorza",7,22],
+    ["Rucola","Pomodoro, mozzarella, rucola",6,20],
+    ["Patatine","Pomodoro, mozzarella, patatine",6,20],
+    ["Padovana","Pomodoro, mozzarella, taleggio, olive, pancetta",7,22],
+    ["Salsiccia","Pomodoro, mozzarella, salsiccia",6,20],
+    ["Brie","Pomodoro, mozzarella, brie",6,20],
+    ["Carciofi","Pomodoro, mozzarella, carciofi",6,20],
+    ["Asparagi","Pomodoro, mozzarella, asparagi",6,20],
+    ["'Nduia","Pomodoro, mozzarella, 'nduia",6,20],
+    ["Happy Pizza","Pomodoro, mozzarella, würstel, spinaci",7,22],
+    ["Manu","Pomodoro, mozzarella, funghi, prosciutto, panna",7,22],
+    ["Porcini","Pomodoro, mozzarella, funghi porcini",7,22],
+    ["Bresaola","Pomodoro, mozzarella, bresaola",7,22],
+    ["Bufalina","Pomodoro, mozzarella di bufala",7,22],
+    ["Scamorza","Pomodoro, mozzarella, scamorza affumicata",7,22],
+    ["Tonno e fagioli","Pomodoro, mozzarella, tonno, fagioli, peperoncino",7,22],
+    ["Salmone","Pomodoro, mozzarella, salmone",7,22],
+    ["Frutti di mare","Pomodoro, salmone, polpa di granchio, gamberetti",8,23],
+    ["Kebab","Pomodoro, mozzarella, kebab, lattuga, cipolla, pomodorini, salse",9,24],
+    ["Canturina","Pomodoro, mozzarella, salame piccante, cipolla, zola",10,25],
+    ["Rustica","Pomodoro, mozzarella, salsiccia, cipolle, zola",null,null],
+    ["Afrodite","Pomodoro, mozzarella, gamberetti, rucola, spinaci",8,23],
+    ["Arcobaleno","Pomodoro, mozzarella, asparagi, pancetta, uovo, grana",8,23],
+    ["Boscaiola","Pomodoro, mozzarella, porcini, bresaola, rucola, grana",9,24],
+    ["Claudio","Pomodoro, mozzarella, cotto, scamorza, salsiccia ('nduia su richiesta)",9,24],
+    ["Friarielli","Pomodoro, mozzarella, friarielli, acciughe, salsiccia, caciocavallo",9,24],
+    ["Giovanni","Pomodoro, mozzarella, cotto, porcini, bufala, gamberetti, rucola",10,25],
+    ["Mare e monti","Pomodoro, mozzarella, porcini, rucola, frutti di mare",10,25],
+    ["Melo","Pomodoro, mozzarella, gamberetti, brie, zucchine, rucola",9,24],
+    ["Cheesecake","Pomodoro, mozzarella, mascarpone, zola, mortadella, pistacchio",10,25],
+    ["Messicana","Pomodoro, mozzarella, fagioli, cipolla, tonno, pancetta, peperoncino",9,24],
+    ["Mirti","Pomodoro, mozzarella, tonno, cipolla, salame piccante, taleggio",10,25],
+    ["Montanara","Pomodoro, mozzarella, porcini, speck, grana",8,23],
+    ["Pesto","Mozzarella, scamorza, zola, pesto (acciughe su richiesta)",8,23],
+    ["Inverno","Pomodoro, mozzarella, funghi porcini, fontina",10,25],
+    ["Zola e noci","Pomodoro, mozzarella, zola, noci",9,24],
+    ["Focaccia","Olio d'oliva, origano — solo formato normale",4,null],
+    ["Focaccia Italia","Pomodorini, rucola, grana, bufala",9,24],
+    ["Amore","Cioccolato fondente e pere Williams",10,25],
+    ["Patatine fritte in vaschetta","Porzione da condividere",4,null],
+  ],
+  kebab: [
+    ["Panino kebab","Pane, carne kebab, verdure, salse",5,null],
+    ["Piadina kebab","Piadina, carne kebab, verdure, salse",5,null],
+    ["Pizza kebab","Base pizza con kebab, verdure, salse",8,null],
+    ["Pizza kebab famiglia","Formato famiglia",23,null],
+  ],
+  bibite: [
+    ["Acqua 50 cl","Naturale o frizzante",1,null],
+    ["Bibite in lattina 33 cl","Coca-Cola, Fanta, Sprite e simili",2.5,null],
+    ["Moretti 66 cl","Birra",3.5,null],
+    ["Heineken 33 cl","Birra",3.5,null],
+    ["Beck's 33 cl","Birra",3.5,null],
+    ["Ceres 33 cl","Birra",4,null],
+    ["Tennent's 33 cl","Birra",4,null],
+    ["Palace 8,5° 5 cl","Amaro",3.5,null],
+    ["Vino Rosso / Bianco 75 cl","Bottiglia",8,null],
+    ["Campari soda 9,8 cl","Aperitivo",3,null],
+  ],
+};
+/* ══ FINE MENU ══ */
+
+/* ══ INIZIO IMMAGINI MENU ══
+   Una foto per prodotto (generata), stesso ordine di MENU sopra.
+   Cartella: img/menu/ — per sostituire una foto con una vera, basta
+   mettere un file con lo stesso nome dentro img/menu/. */
+const IMG_MAP = {
+  classiche: ["classiche-marinara.jpg","classiche-margherita.jpg","classiche-gorgonzola.jpg","classiche-campagnola.jpg","classiche-biancaneve.jpg","classiche-capricciosa.jpg","classiche-napoli.jpg","classiche-pugliese.jpg","classiche-prosciutto-cotto.jpg","classiche-prosciutto-e-funghi.jpg","classiche-primavera.jpg","classiche-4-stagioni.jpg","classiche-calabrese.jpg","classiche-salame-dolce.jpg","classiche-braccio-di-ferro.jpg","classiche-4-formaggi.jpg","classiche-tonno.jpg","classiche-tirolese.jpg","classiche-trevisana.jpg","classiche-w-rstel.jpg","classiche-vegetariana.jpg","classiche-crudo.jpg","classiche-agrodolce.jpg"],
+  speciali: ["speciali-romana.jpg","speciali-tonno-e-cipolle.jpg","speciali-mediterranea.jpg","speciali-saporita.jpg","speciali-rucola.jpg","speciali-patatine.jpg","speciali-padovana.jpg","speciali-salsiccia.jpg","speciali-brie.jpg","speciali-carciofi.jpg","speciali-asparagi.jpg","speciali-nduia.jpg","speciali-happy-pizza.jpg","speciali-manu.jpg","speciali-porcini.jpg","speciali-bresaola.jpg","speciali-bufalina.jpg","speciali-scamorza.jpg","speciali-tonno-e-fagioli.jpg","speciali-salmone.jpg","speciali-frutti-di-mare.jpg","speciali-kebab-pizza.jpg","speciali-canturina.jpg","speciali-rustica.jpg","speciali-afrodite.jpg","speciali-arcobaleno.jpg","speciali-boscaiola.jpg","speciali-claudio.jpg","speciali-friarielli.jpg","speciali-giovanni.jpg","speciali-mare-e-monti.jpg","speciali-melo.jpg","speciali-cheesecake-pizza.jpg","speciali-messicana.jpg","speciali-mirti.jpg","speciali-montanara.jpg","speciali-pesto.jpg","speciali-inverno.jpg","speciali-zola-e-noci.jpg","speciali-focaccia.jpg","speciali-focaccia-italia.jpg","speciali-amore-dolce.jpg","speciali-patatine-fritte.jpg"],
+  kebab: ["kebab-panino-kebab.jpg","kebab-piadina-kebab.jpg","kebab-pizza-kebab.jpg","kebab-pizza-kebab-famiglia.jpg"],
+  bibite: ["bibite-acqua-naturale-e-frizzante.jpg","bibite-bibite-in-lattina.jpg","bibite-birra-moretti.jpg","bibite-birra-heineken.jpg","bibite-birra-becks.jpg","bibite-birra-ceres.jpg","bibite-birra-tennents.jpg","bibite-amaro-palace.jpg","bibite-vino-rosso-e-bianco.jpg","bibite-campari-soda.jpg"],
+};
+function imgFor(cat, idx){
+  const f = IMG_MAP[cat] && IMG_MAP[cat][idx];
+  return f ? ('img/menu/' + f) : '';
+}
+/* ══ FINE IMMAGINI MENU ══ */
+
+const FEATURED = ["Margherita","Diavola / Calabrese","4 Stagioni","4 Formaggi","Happy Pizza"];
+// Nota: se il locale conferma quali sono davvero le più vendute, aggiorna FEATURED sopra.
+const FEAT_MAP = [
+  ["classiche","Margherita"],["classiche","Calabrese"],["classiche","4 Stagioni"],
+  ["classiche","4 Formaggi"],["speciali","Happy Pizza"],
+];
+
+function eur(n){ return n.toFixed(2).replace(".00","").replace(".",",") + " €"; }
+
+function priceLabel(p, f){
+  if(p==null) return "chiedere al banco";
+  if(f==null) return eur(p);
+  return eur(p) + " <small>" + eur(f) + " famiglia</small>";
+}
+
+function findItem(cat, name){
+  return MENU[cat].find(i => i[0] === name);
+}
+function findItemIdx(cat, name){
+  return MENU[cat].findIndex(i => i[0] === name);
+}
+
+// render featured
+const featGrid = document.getElementById('feat-grid');
+FEAT_MAP.forEach(([cat,name]) => {
+  const idx = findItemIdx(cat,name);
+  const item = idx > -1 ? MENU[cat][idx] : null;
+  if(!item) return;
+  const [n,d,p,f] = item;
+  const src = imgFor(cat, idx);
+  const card = document.createElement('button');
+  card.type = 'button';
+  card.className = 'feat-card';
+  card.innerHTML = (src ? `<img class="feat-img" src="${src}" alt="${n}" loading="lazy">` : '') +
+    `<span class="feat-tag">Cliente preferito</span><b>${n}</b><em>${d}</em><span class="pr">${priceLabel(p,f)}</span>`;
+  card.addEventListener('click', () => addToCart(cat, n));
+  featGrid.appendChild(card);
+});
+
+// render menu lists
+const CAT_LABELS = {classiche:'Pizze classiche', speciali:'Pizze speciali', kebab:'Kebab', bibite:'Bibite'};
+Object.keys(MENU).forEach(cat => {
+  const panel = document.getElementById('p-' + cat);
+  MENU[cat].forEach(([n,d,p,f], idx) => {
+    const src = imgFor(cat, idx);
+    const row = document.createElement('div');
+    row.className = 'row';
+    row.innerHTML = (src ? `<img class="row-img" src="${src}" alt="${n}" loading="lazy">` : '') +
+      `<span class="n">${n}<span class="d">${d}</span></span>
+      <span class="pr">${priceLabel(p,f)}</span>
+      <button type="button" class="add" aria-label="Aggiungi ${n}">+</button>`;
+    row.querySelector('.add').addEventListener('click', () => addToCart(cat, n));
+    panel.appendChild(row);
+  });
+});
+
+// tabs
+const tabs = document.querySelectorAll('.tab');
+const panels = document.querySelectorAll('.list');
+function selectTab(cat){
+  tabs.forEach(t => t.setAttribute('aria-selected', t.dataset.cat === cat ? 'true' : 'false'));
+  panels.forEach(p => p.classList.toggle('on', p.dataset.panel === cat));
+}
+tabs.forEach(t => t.addEventListener('click', () => selectTab(t.dataset.cat)));
+selectTab('classiche');
+
+// carrello
+let cart = [];
+function addToCart(cat, name){
+  const item = findItem(cat, name);
+  if(!item || item[2] == null) return;
+  cart.push({cat, name: item[0], price: item[2]});
+  renderCart();
+}
+function removeFromCart(idx){
+  cart.splice(idx,1);
+  renderCart();
+}
+function renderCart(){
+  const bar = document.getElementById('cartbar');
+  const count = document.getElementById('cart-count');
+  const olist = document.getElementById('olist');
+  const total = document.getElementById('cart-total');
+  if(cart.length === 0){ bar.hidden = true; return; }
+  bar.hidden = false;
+  count.textContent = cart.length + (cart.length === 1 ? " pizza/prodotto" : " prodotti");
+  olist.innerHTML = '';
+  let sum = 0;
+  cart.forEach((it, idx) => {
+    sum += it.price;
+    const row = document.createElement('div');
+    row.className = 'oi';
+    row.innerHTML = `<b>${it.name}</b><span>${eur(it.price)}</span><button class="rm" type="button">Rimuovi</button>`;
+    row.querySelector('.rm').addEventListener('click', () => removeFromCart(idx));
+    olist.appendChild(row);
+  });
+  total.textContent = eur(sum);
+}
+
+const dialog = document.getElementById('cart-dialog');
+document.getElementById('cart-open').addEventListener('click', () => dialog.showModal());
+document.getElementById('cart-close').addEventListener('click', () => dialog.close());
+document.getElementById('cust-mode').addEventListener('change', (e) => {
+  document.getElementById('addr-field').style.display = e.target.value.startsWith('Domicilio') ? 'block' : 'none';
+});
+document.getElementById('cart-send').addEventListener('click', () => {
+  if(cart.length === 0) return;
+  const name = document.getElementById('cust-name').value.trim() || "Cliente";
+  const mode = document.getElementById('cust-mode').value;
+  const addr = document.getElementById('cust-addr').value.trim();
+  let sum = cart.reduce((a,b) => a + b.price, 0);
+  let msg = `Ciao Happy Pizza! Vorrei ordinare:%0A%0A`;
+  cart.forEach(it => { msg += `• ${it.name} — ${eur(it.price)}%0A`; });
+  msg += `%0ATotale: ${eur(sum)}%0AModalità: ${mode}%0A`;
+  if(addr) msg += `Indirizzo: ${addr}%0A`;
+  msg += `Nome: ${name}`;
+  window.open(`https://wa.me/393287519605?text=${msg}`, '_blank');
+});
+
+if('serviceWorker' in navigator && window.isSecureContext){
+  window.addEventListener('load', function(){
+    navigator.serviceWorker.register('sw.js').catch(function(){});
+  });
+}
+</script>
+</body>
+</html>

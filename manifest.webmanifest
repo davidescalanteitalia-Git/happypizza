@@ -1,0 +1,16 @@
+{
+  "name": "Happy Pizza Cantù",
+  "short_name": "Happy Pizza",
+  "description": "Pizzeria d'asporto, domicilio e kebab a Cantù (CO). Consegna a 1€, aperti tutti i giorni 18:00-24:00.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#FFFFFF",
+  "theme_color": "#E2001A",
+  "lang": "it",
+  "icons": [
+    { "src": "icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
+    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
+    { "src": "icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+  ]
+}
