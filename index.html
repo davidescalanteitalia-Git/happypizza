@@ -684,10 +684,18 @@ function imgFor(cat, idx){
 
 // extra a pagamento (facoltativi, solo per le pizze) — +1€ ciascuno.
 // Se David vuole cambiare la lista o il prezzo, basta modificare qui.
-const EXTRAS = ["Mozzarella extra","Gorgonzola","Provola","Scamorza","Funghi","Prosciutto cotto",
+const EXTRAS_PIZZA = ["Mozzarella extra","Gorgonzola","Provola","Scamorza","Funghi","Prosciutto cotto",
   "Würstel","Olive","Cipolla","Peperoni","Rucola","Patatine","Salame piccante","Prosciutto crudo",
   "Bresaola","Tonno"];
+const EXTRAS_KEBAB = ["Formaggio extra","Doppia carne","Salsa piccante","Salsa bianca","Salsa yogurt",
+  "Insalata extra","Cipolla","Patatine"];
+const EXTRAS_BIBITE = ["Ghiaccio extra","Limone","Cannuccia"];
 const EXTRA_PRICE = 1;
+function extrasFor(cat){
+  if(cat === 'kebab') return EXTRAS_KEBAB;
+  if(cat === 'bibite') return EXTRAS_BIBITE;
+  return EXTRAS_PIZZA;
+}
 
 const FEATURED = ["Margherita","Diavola / Calabrese","4 Stagioni","4 Formaggi","Happy Pizza"];
 // Nota: se il locale conferma quali sono davvero le più vendute, aggiorna FEATURED sopra.
@@ -796,29 +804,25 @@ function openSheet(cat, idx){
   shName.textContent = n;
   shCurrent = { cat, idx, name: n, size: 'normale', price: p, senza: [], extra: [] };
 
-  // extra a pagamento: solo per le pizze (classiche/speciali), non per kebab/bibite
+  // extra a pagamento: disponibili per QUALSIASI prodotto (pizze, kebab, bibite)
   shExtras.innerHTML = '';
-  if(cat === 'classiche' || cat === 'speciali'){
-    shExtrasWrap.style.display = '';
-    EXTRAS.forEach((name) => {
-      const x = document.createElement('button');
-      x.type = 'button';
-      x.className = 'xchip';
-      x.textContent = '+ ' + name;
-      x.setAttribute('aria-pressed', 'false');
-      x.addEventListener('click', () => {
-        const on = x.getAttribute('aria-pressed') === 'true';
-        x.setAttribute('aria-pressed', on ? 'false' : 'true');
-        const pos = shCurrent.extra.indexOf(name);
-        if(!on){ if(pos === -1) shCurrent.extra.push(name); }
-        else { if(pos !== -1) shCurrent.extra.splice(pos, 1); }
-        updateShAdd();
-      });
-      shExtras.appendChild(x);
+  shExtrasWrap.style.display = '';
+  extrasFor(cat).forEach((name) => {
+    const x = document.createElement('button');
+    x.type = 'button';
+    x.className = 'xchip';
+    x.textContent = '+ ' + name;
+    x.setAttribute('aria-pressed', 'false');
+    x.addEventListener('click', () => {
+      const on = x.getAttribute('aria-pressed') === 'true';
+      x.setAttribute('aria-pressed', on ? 'false' : 'true');
+      const pos = shCurrent.extra.indexOf(name);
+      if(!on){ if(pos === -1) shCurrent.extra.push(name); }
+      else { if(pos !== -1) shCurrent.extra.splice(pos, 1); }
+      updateShAdd();
     });
-  } else {
-    shExtrasWrap.style.display = 'none';
-  }
+    shExtras.appendChild(x);
+  });
 
   shSizes.innerHTML = '';
   let btnNormale = null, btnFamiglia = null;
