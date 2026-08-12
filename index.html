@@ -327,6 +327,10 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
   border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink);
   font:inherit;font-size:13.5px;transition:opacity .15s var(--ease)}
 .chip[aria-pressed="false"]{opacity:.42;text-decoration:line-through;background:transparent}
+.xchip{min-height:38px;padding:0 14px;border-radius:999px;cursor:pointer;
+  border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink);
+  font:inherit;font-size:13.5px;transition:background .15s var(--ease),color .15s var(--ease)}
+.xchip[aria-pressed="true"]{background:var(--red);color:#fff;border-color:var(--red);font-weight:700}
 .sh-hint{font-size:12.5px;color:var(--ink-soft);margin-top:12px;line-height:1.5}
 .sh-add{margin-top:18px}
 .sh-add:disabled{opacity:.5;cursor:not-allowed}
@@ -554,7 +558,11 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
       <div class="size-row" id="sh-sizes"></div>
       <p class="chip-label">Com'è fatta · tocca un ingrediente per toglierlo</p>
       <div class="chips" id="sh-chips"></div>
-      <p class="sh-hint">Tutti gli ingredienti attivi = ricetta completa. Ogni ingrediente in più costa +1€ (chiedilo al banco o su WhatsApp).</p>
+      <div id="sh-extras-wrap">
+        <p class="chip-label" style="margin-top:18px">Vuoi aggiungere qualcosa? (+1€ ciascuno)</p>
+        <div class="chips" id="sh-extras"></div>
+      </div>
+      <p class="sh-hint">Tutti gli ingredienti attivi = ricetta completa. Ogni ingrediente in più costa +1€.</p>
       <button type="button" class="co-send sh-add" id="sh-add">Aggiungi all'ordine</button>
     </div>
   </div>
@@ -674,6 +682,13 @@ function imgFor(cat, idx){
 }
 /* ══ FINE IMMAGINI MENU ══ */
 
+// extra a pagamento (facoltativi, solo per le pizze) — +1€ ciascuno.
+// Se David vuole cambiare la lista o il prezzo, basta modificare qui.
+const EXTRAS = ["Mozzarella extra","Gorgonzola","Provola","Scamorza","Funghi","Prosciutto cotto",
+  "Würstel","Olive","Cipolla","Peperoni","Rucola","Patatine","Salame piccante","Prosciutto crudo",
+  "Bresaola","Tonno"];
+const EXTRA_PRICE = 1;
+
 const FEATURED = ["Margherita","Diavola / Calabrese","4 Stagioni","4 Formaggi","Happy Pizza"];
 // Nota: se il locale conferma quali sono davvero le più vendute, aggiorna FEATURED sopra.
 const FEAT_MAP = [
@@ -747,18 +762,26 @@ const shImg = document.getElementById('sh-img');
 const shName = document.getElementById('sh-name');
 const shSizes = document.getElementById('sh-sizes');
 const shChips = document.getElementById('sh-chips');
+const shExtrasWrap = document.getElementById('sh-extras-wrap');
+const shExtras = document.getElementById('sh-extras');
 const shAdd = document.getElementById('sh-add');
 let shCurrent = null;
 
 document.getElementById('sh-close').addEventListener('click', () => sheet.close());
 sheet.addEventListener('click', (e) => { if(e.target === sheet) sheet.close(); });
 
+function shTotalPrice(){
+  if(!shCurrent || shCurrent.price == null) return null;
+  const extraCount = shCurrent.extra ? shCurrent.extra.length : 0;
+  return shCurrent.price + extraCount * EXTRA_PRICE;
+}
 function updateShAdd(){
-  if(!shCurrent || shCurrent.price == null){
+  const t = shTotalPrice();
+  if(t == null){
     shAdd.textContent = 'Prezzo da chiedere al banco';
     shAdd.disabled = true;
   } else {
-    shAdd.textContent = `Aggiungi all'ordine — ${eur(shCurrent.price)}`;
+    shAdd.textContent = `Aggiungi all'ordine — ${eur(t)}`;
     shAdd.disabled = false;
   }
 }
@@ -771,7 +794,31 @@ function openSheet(cat, idx){
   shImg.src = src;
   shImg.alt = n;
   shName.textContent = n;
-  shCurrent = { cat, idx, name: n, size: 'normale', price: p, senza: [] };
+  shCurrent = { cat, idx, name: n, size: 'normale', price: p, senza: [], extra: [] };
+
+  // extra a pagamento: solo per le pizze (classiche/speciali), non per kebab/bibite
+  shExtras.innerHTML = '';
+  if(cat === 'classiche' || cat === 'speciali'){
+    shExtrasWrap.style.display = '';
+    EXTRAS.forEach((name) => {
+      const x = document.createElement('button');
+      x.type = 'button';
+      x.className = 'xchip';
+      x.textContent = '+ ' + name;
+      x.setAttribute('aria-pressed', 'false');
+      x.addEventListener('click', () => {
+        const on = x.getAttribute('aria-pressed') === 'true';
+        x.setAttribute('aria-pressed', on ? 'false' : 'true');
+        const pos = shCurrent.extra.indexOf(name);
+        if(!on){ if(pos === -1) shCurrent.extra.push(name); }
+        else { if(pos !== -1) shCurrent.extra.splice(pos, 1); }
+        updateShAdd();
+      });
+      shExtras.appendChild(x);
+    });
+  } else {
+    shExtrasWrap.style.display = 'none';
+  }
 
   shSizes.innerHTML = '';
   let btnNormale = null, btnFamiglia = null;
@@ -826,10 +873,11 @@ function openSheet(cat, idx){
 }
 
 shAdd.addEventListener('click', () => {
-  if(!shCurrent || shCurrent.price == null) return;
+  const t = shTotalPrice();
+  if(t == null) return;
   cart.push({
-    cat: shCurrent.cat, name: shCurrent.name, price: shCurrent.price,
-    size: shCurrent.size, senza: shCurrent.senza.slice(),
+    cat: shCurrent.cat, name: shCurrent.name, price: t,
+    size: shCurrent.size, senza: shCurrent.senza.slice(), extra: shCurrent.extra.slice(),
   });
   sheet.close();
   renderCart();
@@ -856,8 +904,11 @@ function renderCart(){
     const row = document.createElement('div');
     row.className = 'oi';
     const sizeLabel = it.size === 'famiglia' ? ' (famiglia)' : '';
-    const senza = (it.senza && it.senza.length) ? `<small>senza ${it.senza.join(', ')}</small>` : '';
-    row.innerHTML = `<span><b>${it.name}${sizeLabel}</b>${senza}</span><span>${eur(it.price)}</span><button class="rm" type="button">Rimuovi</button>`;
+    const parts = [];
+    if(it.senza && it.senza.length) parts.push('senza ' + it.senza.join(', '));
+    if(it.extra && it.extra.length) parts.push('extra ' + it.extra.join(', '));
+    const small = parts.length ? `<small>${parts.join(' · ')}</small>` : '';
+    row.innerHTML = `<span><b>${it.name}${sizeLabel}</b>${small}</span><span>${eur(it.price)}</span><button class="rm" type="button">Rimuovi</button>`;
     row.querySelector('.rm').addEventListener('click', () => removeFromCart(idx));
     olist.appendChild(row);
   });
@@ -881,6 +932,7 @@ document.getElementById('cart-send').addEventListener('click', () => {
     const sizeLabel = it.size === 'famiglia' ? ' (famiglia)' : '';
     msg += `• ${it.name}${sizeLabel} — ${eur(it.price)}%0A`;
     if(it.senza && it.senza.length) msg += `  SENZA: ${it.senza.join(', ')}%0A`;
+    if(it.extra && it.extra.length) msg += `  EXTRA: ${it.extra.join(', ')}%0A`;
   });
   msg += `%0ATotale: ${eur(sum)}%0AModalità: ${mode}%0A`;
   if(addr) msg += `Indirizzo: ${addr}%0A`;
