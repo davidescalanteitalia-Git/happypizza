@@ -198,15 +198,19 @@ h3{font-size:1.05rem;letter-spacing:-.01em}
 .list{display:none;margin-top:10px}
 .list.on{display:grid;gap:0 44px}
 @media (min-width:720px){.list.on{grid-template-columns:1fr 1fr}}
-.row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--line)}
+.row{display:flex;align-items:flex-start;gap:12px;padding:14px 0;border-bottom:1px solid var(--line);
+  transition:transform .12s var(--ease),background-color .12s var(--ease);-webkit-tap-highlight-color:transparent}
+.row:active{transform:scale(.975);background:var(--paper-2)}
 .row-img{flex:none;width:52px;height:52px;border-radius:10px;object-fit:cover;background:var(--paper-2);margin-top:1px}
 .row .n{flex:1;min-width:0;font-weight:700;font-size:15.5px}
 .row .n .d{display:block;font-weight:400;font-size:13.5px;color:var(--ink-soft);margin-top:3px}
 .row .pr{flex:none;text-align:right;font-weight:800;color:var(--red);font-size:14.5px;white-space:nowrap;padding-top:1px}
 .row .pr small{display:block;font-weight:500;color:var(--ink-soft);font-size:11px}
 .row .add{flex:none;width:34px;height:34px;border-radius:50%;border:1.5px solid var(--line);background:var(--paper-2);
-  color:var(--ink);font-size:19px;line-height:1;cursor:pointer;appearance:none;margin-top:1px}
+  color:var(--ink);font-size:19px;line-height:1;cursor:pointer;appearance:none;margin-top:1px;
+  transition:transform .12s var(--ease),background-color .12s var(--ease);-webkit-tap-highlight-color:transparent}
 .row .add:hover{background:var(--red);color:#fff;border-color:var(--red)}
+.row .add:active{transform:scale(.85)}
 .legend{margin-top:22px;font-size:13px;color:var(--ink-soft);max-width:var(--measure)}
 .legend b{color:var(--ink)}
 .promo-box{margin-top:26px;border:1.5px dashed var(--red);border-radius:var(--radius);background:#fff3f2;padding:16px 20px;max-width:var(--measure)}
@@ -306,6 +310,8 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
 .cartbar[hidden]{display:none}
 .oi{align-items:flex-start!important}
 .oi small{display:block;font-size:11.5px;color:var(--ink-soft);margin-top:2px}
+@keyframes cart-bump{0%{transform:scale(1)}35%{transform:scale(1.14)}60%{transform:scale(.96)}100%{transform:scale(1)}}
+.cartbar.bump .inner{animation:cart-bump .45s var(--ease)}
 
 /* ficha di dettaglio prodotto (tocca una pizza per personalizzarla) */
 .row{cursor:pointer}
@@ -319,20 +325,27 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
 .size-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:18px}
 .size-btn{min-height:42px;padding:0 16px;border-radius:999px;cursor:pointer;
   border:1.5px solid var(--line);background:transparent;color:var(--ink-soft);
-  font:inherit;font-size:14px;font-weight:700}
+  font:inherit;font-size:14px;font-weight:700;transition:transform .12s var(--ease),background-color .15s var(--ease),color .15s var(--ease);
+  -webkit-tap-highlight-color:transparent}
+.size-btn:active{transform:scale(.93)}
 .size-btn[aria-pressed="true"]{background:var(--ink);color:#fff;border-color:var(--ink)}
 .chip-label{font-size:13.5px;font-weight:700;margin-bottom:10px}
 .chips{display:flex;flex-wrap:wrap;gap:8px}
 .chip{min-height:38px;padding:0 14px;border-radius:999px;cursor:pointer;
   border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink);
-  font:inherit;font-size:13.5px;transition:opacity .15s var(--ease)}
+  font:inherit;font-size:13.5px;transition:opacity .15s var(--ease),transform .12s var(--ease);
+  -webkit-tap-highlight-color:transparent}
+.chip:active{transform:scale(.92)}
 .chip[aria-pressed="false"]{opacity:.42;text-decoration:line-through;background:transparent}
 .xchip{min-height:38px;padding:0 14px;border-radius:999px;cursor:pointer;
   border:1.5px solid var(--line);background:var(--paper-2);color:var(--ink);
-  font:inherit;font-size:13.5px;transition:background .15s var(--ease),color .15s var(--ease)}
+  font:inherit;font-size:13.5px;transition:background .15s var(--ease),color .15s var(--ease),transform .12s var(--ease);
+  -webkit-tap-highlight-color:transparent}
+.xchip:active{transform:scale(.92)}
 .xchip[aria-pressed="true"]{background:var(--red);color:#fff;border-color:var(--red);font-weight:700}
 .sh-hint{font-size:12.5px;color:var(--ink-soft);margin-top:12px;line-height:1.5}
-.sh-add{margin-top:18px}
+.sh-add{margin-top:18px;transition:transform .12s var(--ease)}
+.sh-add:active{transform:scale(.97)}
 .sh-add:disabled{opacity:.5;cursor:not-allowed}
 </style>
 </head>
@@ -733,7 +746,7 @@ FEAT_MAP.forEach(([cat,name]) => {
   card.className = 'feat-card';
   card.innerHTML = (src ? `<img class="feat-img" src="${src}" alt="${n}" loading="lazy">` : '') +
     `<span class="feat-tag">Cliente preferito</span><b>${n}</b><em>${d}</em><span class="pr">${priceLabel(p,f)}</span>`;
-  card.addEventListener('click', () => openSheet(cat, idx));
+  card.addEventListener('click', () => openSheet(cat, idx, card));
   featGrid.appendChild(card);
 });
 
@@ -749,7 +762,7 @@ Object.keys(MENU).forEach(cat => {
       `<span class="n">${n}<span class="d">${d}</span></span>
       <span class="pr">${priceLabel(p,f)}</span>
       <button type="button" class="add" aria-label="Vedi dettagli ${n}">+</button>`;
-    row.addEventListener('click', () => openSheet(cat, idx));
+    row.addEventListener('click', () => openSheet(cat, idx, row));
     panel.appendChild(row);
   });
 });
@@ -795,9 +808,10 @@ function updateShAdd(){
   }
 }
 
-function openSheet(cat, idx){
+function openSheet(cat, idx, originEl){
   const item = MENU[cat][idx];
   if(!item) return;
+  const originRect = originEl ? originEl.getBoundingClientRect() : null;
   const [n, d, p, f] = item;
   const src = imgFor(cat, idx);
   shImg.src = src;
@@ -875,6 +889,26 @@ function openSheet(cat, idx){
 
   updateShAdd();
   sheet.showModal();
+
+  // effetto "si espande" dal prodotto toccato: la ficha nasce piccola nel
+  // punto esatto della carta/riga toccata e cresce fino alla dimensione piena.
+  if(originRect){
+    const dRect = sheet.getBoundingClientRect();
+    const scaleX = Math.max(originRect.width / dRect.width, 0.06);
+    const scaleY = Math.max(originRect.height / dRect.height, 0.06);
+    const dx = (originRect.left + originRect.width / 2) - (dRect.left + dRect.width / 2);
+    const dy = (originRect.top + originRect.height / 2) - (dRect.top + dRect.height / 2);
+    sheet.style.animation = 'none';
+    sheet.style.transformOrigin = 'center center';
+    sheet.style.transition = 'none';
+    sheet.style.transform = `translate(${dx}px, ${dy}px) scale(${scaleX}, ${scaleY})`;
+    sheet.style.opacity = '.5';
+    requestAnimationFrame(() => {
+      sheet.style.transition = 'transform .38s cubic-bezier(.22,1,.36,1), opacity .28s ease';
+      sheet.style.transform = 'translate(0,0) scale(1,1)';
+      sheet.style.opacity = '1';
+    });
+  }
 }
 
 shAdd.addEventListener('click', () => {
@@ -884,8 +918,34 @@ shAdd.addEventListener('click', () => {
     cat: shCurrent.cat, name: shCurrent.name, price: t,
     size: shCurrent.size, senza: shCurrent.senza.slice(), extra: shCurrent.extra.slice(),
   });
-  sheet.close();
-  renderCart();
+  renderCart(); // mostra/aggiorna la barra del carrello PRIMA di misurarla, cosi l'animazione punta li
+
+  // effetto "si rimpicciolisce e vola verso il carrello", come mandare una
+  // scheda nella cartella del carrello, invece di sparire semplicemente.
+  const cartBarEl = document.getElementById('cartbar');
+  const dRect = sheet.getBoundingClientRect();
+  let targetRect;
+  if(cartBarEl && !cartBarEl.hidden){
+    targetRect = cartBarEl.getBoundingClientRect();
+  } else {
+    targetRect = { left: window.innerWidth / 2 - 10, top: window.innerHeight - 30, width: 20, height: 20 };
+  }
+  const dx = (targetRect.left + targetRect.width / 2) - (dRect.left + dRect.width / 2);
+  const dy = (targetRect.top + targetRect.height / 2) - (dRect.top + dRect.height / 2);
+  sheet.style.transformOrigin = 'center center';
+  sheet.style.transition = 'transform .42s cubic-bezier(.5,-0.2,.8,.4), opacity .34s ease .08s';
+  sheet.style.transform = `translate(${dx}px, ${dy}px) scale(.05, .05)`;
+  sheet.style.opacity = '0';
+  if(cartBarEl) cartBarEl.classList.add('bump');
+
+  setTimeout(() => {
+    sheet.close();
+    sheet.style.animation = '';
+    sheet.style.transition = '';
+    sheet.style.transform = '';
+    sheet.style.opacity = '';
+    if(cartBarEl) cartBarEl.classList.remove('bump');
+  }, 420);
 });
 
 // carrello
