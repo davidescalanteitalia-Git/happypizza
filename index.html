@@ -347,6 +347,24 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
 .sh-add{margin-top:18px;transition:transform .12s var(--ease)}
 .sh-add:active{transform:scale(.97)}
 .sh-add:disabled{opacity:.5;cursor:not-allowed}
+
+/* portada de contacto: se muestra al tocar cualquier cosa del sitio */
+.d4gate-overlay{position:fixed;inset:0;background:rgba(10,8,7,.62);z-index:500;
+  display:flex;align-items:center;justify-content:center;padding:20px}
+.d4gate-overlay[hidden]{display:none}
+.d4gate-box{position:relative;background:#fff;border-radius:var(--radius);max-width:380px;width:100%;
+  padding:30px 24px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:sheet-in .22s var(--ease)}
+.d4gate-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;
+  background:var(--paper-2);font-size:16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
+.d4gate-icon{width:52px;height:52px;border-radius:14px;background:var(--red);color:#fff;
+  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;margin:0 auto 16px}
+.d4gate-box h3{font-size:1.28rem;letter-spacing:-.02em;margin-bottom:10px}
+.d4gate-box p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin-bottom:22px}
+.d4gate-btn{display:block;width:100%;min-height:50px;line-height:50px;border-radius:999px;
+  text-decoration:none;font-weight:700;font-size:15px;margin-bottom:10px;transition:transform .12s var(--ease)}
+.d4gate-btn:active{transform:scale(.97)}
+.d4gate-btn.wa{background:#25D366;color:#fff}
+.d4gate-btn.site{background:transparent;color:var(--ink);border:1.5px solid var(--line)}
 </style>
 </head>
 <body>
@@ -581,6 +599,17 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
     </div>
   </div>
 </dialog>
+
+<div class="d4gate-overlay" id="d4-gate-overlay" hidden>
+  <div class="d4gate-box">
+    <button type="button" class="d4gate-x" id="d4gate-close" aria-label="Chiudi">✕</button>
+    <div class="d4gate-icon">D4</div>
+    <h3>Ti piace questo sito?</h3>
+    <p>Questo è un esempio di ciò che possiamo creare per la tua attività. Per continuare la realizzazione del sito — completo e funzionante come questo — contatta D4 Digital Studio.</p>
+    <a class="d4gate-btn wa" href="https://wa.me/393751239515" target="_blank" rel="noopener">Scrivici su WhatsApp</a>
+    <a class="d4gate-btn site" href="https://d4digitalstudio.it" target="_blank" rel="noopener">Vedi d4digitalstudio.it</a>
+  </div>
+</div>
 
 <script>
 document.getElementById('year').textContent = new Date().getFullYear();
@@ -1004,6 +1033,23 @@ document.getElementById('cart-send').addEventListener('click', () => {
   msg += `Nome: ${name}`;
   window.open(`https://wa.me/393287519605?text=${msg}`, '_blank');
 });
+
+// portada de contacto: qualsiasi tocco/click sul sito (tranne dentro alla
+// scheda stessa) apre l'invito a contattare D4 Digital Studio, invece di
+// eseguire l'azione normale (menù, WhatsApp, carrello, ecc).
+const d4Gate = document.getElementById('d4-gate-overlay');
+const d4GateClose = document.getElementById('d4gate-close');
+function openD4Gate(){ d4Gate.hidden = false; }
+function closeD4Gate(){ d4Gate.hidden = true; }
+d4GateClose.addEventListener('click', closeD4Gate);
+d4Gate.addEventListener('click', (e) => { if(e.target === d4Gate) closeD4Gate(); });
+document.addEventListener('click', function(e){
+  if(e.target.closest('#d4-gate-overlay')) return; // lascia funzionare la scheda stessa
+  e.preventDefault();
+  e.stopPropagation();
+  e.stopImmediatePropagation();
+  openD4Gate();
+}, true);
 
 if('serviceWorker' in navigator && window.isSecureContext){
   window.addEventListener('load', function(){
