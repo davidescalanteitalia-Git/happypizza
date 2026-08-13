@@ -356,8 +356,10 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
   padding:30px 24px 24px;text-align:center;box-shadow:0 20px 60px rgba(0,0,0,.35);animation:sheet-in .22s var(--ease)}
 .d4gate-x{position:absolute;top:10px;right:10px;width:34px;height:34px;border-radius:50%;border:0;
   background:var(--paper-2);font-size:16px;cursor:pointer;-webkit-tap-highlight-color:transparent}
-.d4gate-icon{width:52px;height:52px;border-radius:14px;background:var(--red);color:#fff;
-  display:flex;align-items:center;justify-content:center;font-weight:800;font-size:20px;margin:0 auto 16px}
+.d4gate-icon{width:58px;height:58px;border-radius:16px;background:#fff;
+  border:1.5px solid var(--line);display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;padding:9px;box-shadow:0 4px 14px rgba(0,0,0,.08)}
+.d4gate-icon img{width:100%;height:100%;object-fit:contain}
 .d4gate-box h3{font-size:1.28rem;letter-spacing:-.02em;margin-bottom:10px}
 .d4gate-box p{color:var(--ink-soft);font-size:14.5px;line-height:1.6;margin-bottom:22px}
 .d4gate-btn{display:block;width:100%;min-height:50px;line-height:50px;border-radius:999px;
@@ -603,7 +605,7 @@ dialog[open]{animation:sheet-in .22s var(--ease)}
 <div class="d4gate-overlay" id="d4-gate-overlay" hidden>
   <div class="d4gate-box">
     <button type="button" class="d4gate-x" id="d4gate-close" aria-label="Chiudi">✕</button>
-    <div class="d4gate-icon">D4</div>
+    <div class="d4gate-icon"><img src="d4-mark.png" alt="D4 Digital Studio"></div>
     <h3>Ti piace questo sito?</h3>
     <p>Questo è un esempio di ciò che possiamo creare per la tua attività. Per continuare la realizzazione del sito — completo e funzionante come questo — contatta D4 Digital Studio.</p>
     <a class="d4gate-btn wa" href="https://wa.me/393751239515" target="_blank" rel="noopener">Scrivici su WhatsApp</a>
